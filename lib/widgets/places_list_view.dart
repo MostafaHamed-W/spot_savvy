@@ -17,6 +17,9 @@ class PlacesListView extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         return Card(
           child: ListTile(
+            leading: CircleAvatar(
+              backgroundImage: FileImage(placesList[index].image!),
+            ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),

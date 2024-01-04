@@ -15,30 +15,25 @@ class NewPlcae extends ConsumerStatefulWidget {
 
 class _NewPlcaeState extends ConsumerState<NewPlcae> {
   final TextEditingController _titleController = TextEditingController();
+  File? _selectedImage;
 
   void _savePlace({
     required String placeTitle,
   }) {
-    ref.read(userPlacesProvider.notifier).addNewPlcae(
-          title: placeTitle,
-          image: _image,
-        );
+    if (placeTitle != "" && _selectedImage != null) {
+      ref.read(userPlacesProvider.notifier).addNewPlcae(
+            title: placeTitle,
+            image: _selectedImage,
+          );
 
-    Navigator.pop(context);
-  }
-
-  File? _image;
-
-  Future<void> _pickImage() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.camera);
-
-    if (pickedFile != null) {
-      setState(() {
-        _image = File(
-          pickedFile.path,
-        );
-      });
+      Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          behavior: SnackBarBehavior.floating,
+          content: Text('Please Enter a Valid Place Data!'),
+        ),
+      );
     }
   }
 
@@ -71,28 +66,10 @@ class _NewPlcaeState extends ConsumerState<NewPlcae> {
                 ),
               ),
               const SizedBox(height: 25),
-              Container(
-                height: 250,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-                child: _image != null
-                    ? InkWell(
-                        onTap: _pickImage,
-                        child: Image.file(
-                          _image!,
-                          key: ValueKey(_image),
-                          fit: BoxFit.cover,
-                        ),
-                      )
-                    : TextButton.icon(
-                        onPressed: _pickImage,
-                        icon: const Icon(Icons.camera),
-                        label: const Text('Add photo'),
-                      ),
+              ImageInput(
+                onSelectImage: (File? selectedImage) {
+                  _selectedImage = selectedImage;
+                },
               ),
               const SizedBox(height: 25),
               ElevatedButton(
