@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:spot_savvy/providers/places_provider.dart';
 import 'package:spot_savvy/widgets/image_input.dart';
+import 'package:spot_savvy/widgets/location_input.dart';
 
 class NewPlcae extends ConsumerStatefulWidget {
   const NewPlcae({super.key});
@@ -71,7 +71,8 @@ class _NewPlcaeState extends ConsumerState<NewPlcae> {
                   _selectedImage = selectedImage;
                 },
               ),
-              const SizedBox(height: 25),
+              const SizedBox(height: 30),
+              const LocationInput(),
               ElevatedButton(
                 onPressed: () {
                   _savePlace(placeTitle: _titleController.text);
