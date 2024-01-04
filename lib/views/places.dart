@@ -16,7 +16,7 @@ class Places extends ConsumerWidget {
         style: Theme.of(context).textTheme.titleMedium,
       ),
     );
-    List<PlaceModel> placesList = ref.watch(placesProvider);
+    List<PlaceModel> placesList = ref.watch(userPlacesProvider);
 
     if (placesList.isNotEmpty) {
       content = Padding(

@@ -11,12 +11,27 @@ class Place extends StatelessWidget {
       appBar: AppBar(
         title: Text(selectedPlace.title),
       ),
-      body: Center(
-        child: Text(
-          'Place id: ${selectedPlace.id}\nPlace Name: ${selectedPlace.title}',
-          style: Theme.of(context).textTheme.titleMedium,
-          textAlign: TextAlign.center,
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(height: 50),
+          Text(
+            'Place Name: ${selectedPlace.title}\n \nPlace id: ${selectedPlace.id}',
+            style: Theme.of(context).textTheme.titleMedium,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 20),
+          if (selectedPlace.image != null)
+            SizedBox(
+              width: double.infinity,
+              // height: 250,
+              child: Image.file(
+                selectedPlace.image!,
+                fit: BoxFit.cover,
+              ),
+            )
+        ],
       ),
     );
   }
