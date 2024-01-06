@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:location/location.dart';
+import 'package:spot_savvy/models/location/location.dart';
 import 'package:spot_savvy/providers/places_provider.dart';
 import 'package:spot_savvy/widgets/image_input.dart';
 import 'package:spot_savvy/widgets/location_input.dart';
@@ -16,14 +18,20 @@ class NewPlcae extends ConsumerStatefulWidget {
 class _NewPlcaeState extends ConsumerState<NewPlcae> {
   final TextEditingController _titleController = TextEditingController();
   File? _selectedImage;
+  LocationModel? _locationData;
 
   void _savePlace({
     required String placeTitle,
+    File? selectedImage,
+    LocationModel? locationData,
   }) {
-    if (placeTitle != "" && _selectedImage != null) {
+    print(_locationData);
+    if (placeTitle != "" && selectedImage != null && locationData != null) {
+      print(_locationData);
       ref.read(userPlacesProvider.notifier).addNewPlcae(
             title: placeTitle,
-            image: _selectedImage,
+            image: selectedImage,
+            locationData: locationData,
           );
 
       Navigator.pop(context);
@@ -72,10 +80,18 @@ class _NewPlcaeState extends ConsumerState<NewPlcae> {
                 },
               ),
               const SizedBox(height: 30),
-              const LocationInput(),
+              LocationInput(
+                onGeUsertLocation: (LocationModel? locationModel) {
+                  _locationData = locationModel;
+                },
+              ),
               ElevatedButton(
                 onPressed: () {
-                  _savePlace(placeTitle: _titleController.text);
+                  _savePlace(
+                    placeTitle: _titleController.text,
+                    selectedImage: _selectedImage,
+                    locationData: _locationData,
+                  );
                 },
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
