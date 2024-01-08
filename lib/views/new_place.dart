@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:location/location.dart';
+
 import 'package:spot_savvy/models/location/location.dart';
 import 'package:spot_savvy/providers/places_provider.dart';
 import 'package:spot_savvy/widgets/image_input.dart';
@@ -19,19 +19,23 @@ class _NewPlcaeState extends ConsumerState<NewPlcae> {
   final TextEditingController _titleController = TextEditingController();
   File? _selectedImage;
   LocationModel? _locationData;
+  Image? _locationImage;
 
   void _savePlace({
     required String placeTitle,
     File? selectedImage,
     LocationModel? locationData,
+    Image? locationImage,
   }) {
-    print(_locationData);
-    if (placeTitle != "" && selectedImage != null && locationData != null) {
-      print(_locationData);
+    if (placeTitle != "" &&
+        selectedImage != null &&
+        locationData != null &&
+        locationImage != null) {
       ref.read(userPlacesProvider.notifier).addNewPlcae(
             title: placeTitle,
             image: selectedImage,
             locationData: locationData,
+            locationImage: locationImage,
           );
 
       Navigator.pop(context);
@@ -81,8 +85,9 @@ class _NewPlcaeState extends ConsumerState<NewPlcae> {
               ),
               const SizedBox(height: 30),
               LocationInput(
-                onGeUsertLocation: (LocationModel? locationModel) {
+                onGeUsertLocation: (LocationModel? locationModel, Image? locationImage) {
                   _locationData = locationModel;
+                  _locationImage = locationImage;
                 },
               ),
               ElevatedButton(
@@ -91,6 +96,7 @@ class _NewPlcaeState extends ConsumerState<NewPlcae> {
                     placeTitle: _titleController.text,
                     selectedImage: _selectedImage,
                     locationData: _locationData,
+                    locationImage: _locationImage,
                   );
                 },
                 child: const Row(

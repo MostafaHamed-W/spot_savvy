@@ -12,34 +12,38 @@ class Place extends StatelessWidget {
       appBar: AppBar(
         title: Text(selectedPlace.title),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 10),
-              Text(
-                'Place Name: ${selectedPlace.title}',
-                style: Theme.of(context).textTheme.titleMedium,
-                textAlign: TextAlign.center,
+      body: Stack(
+        children: [
+          if (selectedPlace.image != null)
+            SizedBox(
+              width: double.infinity,
+              height: double.infinity,
+              child: Image.file(
+                selectedPlace.image!,
+                fit: BoxFit.fitHeight,
               ),
-              const SizedBox(height: 10),
-              if (selectedPlace.image != null)
-                SizedBox(
-                  width: double.infinity,
-                  // height: 250,
-                  child: Image.file(
-                    selectedPlace.image!,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              const SizedBox(height: 10),
-              LocationDataList(userLocationResponse: selectedPlace.locationModel)
-            ],
+            ),
+          // const SizedBox(height: 10),
+          Positioned(
+            top: 40,
+            left: 0,
+            right: 0,
+            child: LocationDataList(userLocationResponse: selectedPlace.locationModel),
           ),
-        ),
+
+          Positioned(
+            bottom: 50,
+            left: 0,
+            right: 0,
+            child: Opacity(
+              opacity: 0.8,
+              child: CircleAvatar(
+                radius: 100,
+                backgroundImage: selectedPlace.locationImage!.image,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

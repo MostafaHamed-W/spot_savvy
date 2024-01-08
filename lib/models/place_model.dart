@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:spot_savvy/models/location/location.dart';
 import 'package:uuid/uuid.dart';
 
@@ -10,6 +11,8 @@ class PlaceModel {
   final String id;
   final File? image;
   final LocationModel? locationModel;
+  final Image? locationImage;
 
-  PlaceModel({required this.title, this.image, this.locationModel}) : id = uuid.v4();
+  PlaceModel({required this.title, this.image, this.locationModel, this.locationImage})
+      : id = uuid.v4();
 }
