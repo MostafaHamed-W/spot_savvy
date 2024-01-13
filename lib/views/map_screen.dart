@@ -16,7 +16,10 @@ class MapScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            selectedPlace.locationImage!,
+            Image.memory(
+              selectedPlace.locationImage!,
+              fit: BoxFit.cover,
+            ),
             const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),

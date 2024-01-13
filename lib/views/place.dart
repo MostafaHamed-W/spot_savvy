@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spot_savvy/models/place_model.dart';
 import 'package:spot_savvy/views/map_screen.dart';
 import 'package:spot_savvy/widgets/location_data_list.dart';
+import 'dart:typed_data';
 
 class Place extends StatelessWidget {
   final PlaceModel selectedPlace;
@@ -42,7 +43,9 @@ class Place extends StatelessWidget {
                     opacity: 0.8,
                     child: CircleAvatar(
                       radius: 100,
-                      backgroundImage: selectedPlace.locationImage?.image,
+                      backgroundImage: MemoryImage(
+                        selectedPlace.locationImage!,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 10),

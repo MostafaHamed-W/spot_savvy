@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -10,13 +11,13 @@ import 'package:spot_savvy/widgets/location_data_list.dart';
 
 class LocationInput extends StatefulWidget {
   const LocationInput({super.key, required this.onGeUsertLocation});
-  final void Function(LocationModel? locationModel, Image? locationImage) onGeUsertLocation;
+  final void Function(LocationModel? locationModel, Uint8List? locationImage) onGeUsertLocation;
   @override
   State<LocationInput> createState() => _LocationInputState();
 }
 
 class _LocationInputState extends State<LocationInput> {
-  Image? image;
+  Uint8List? image;
   bool isGettingLocation = false;
   LocationData? userLocationData;
   LocationModel? userLocationResponse;
@@ -78,13 +79,15 @@ class _LocationInputState extends State<LocationInput> {
       final response = await http.get(imageUrl);
 
       if (response.statusCode == 200) {
-        setState(() {
-          // Use Image.memory to decode and display the image
-          image = Image.memory(
-            response.bodyBytes,
-            fit: BoxFit.cover,
-          );
-        });
+        setState(
+          () {
+            // Use Image.memory to decode and display the image
+            Image.memory(
+              image = response.bodyBytes,
+              fit: BoxFit.cover,
+            );
+          },
+        );
         print(response.statusCode);
       } else {
         print("Failed to fetch the image: ${response.statusCode}");
@@ -129,7 +132,10 @@ class _LocationInputState extends State<LocationInput> {
                       : SingleChildScrollView(
                           child: Column(
                             children: [
-                              image!,
+                              Image.memory(
+                                image!,
+                                fit: BoxFit.cover,
+                              ),
                               // Padding(
                               //   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                               //   child: LocationDataList(

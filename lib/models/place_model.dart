@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:spot_savvy/models/location/location.dart';
@@ -11,7 +12,7 @@ class PlaceModel {
   final String id;
   final File? image;
   final LocationModel? locationModel;
-  final Image? locationImage;
+  final Uint8List? locationImage;
 
   PlaceModel({
     required this.title,

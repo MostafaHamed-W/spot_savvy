@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,7 +16,7 @@ Future<Database> _getDatabase() async {
     path.join(dbPath, 'places.db'),
     onCreate: (db, version) {
       return db.execute(
-          'CREATE TABLE user_places(id TEXT PRIMARY KEY, title TEXT, image TEXT, lat TEXT, lng TEXT, address TEXT)');
+          'CREATE TABLE user_places(id TEXT PRIMARY KEY, title TEXT, image TEXT, lat TEXT, lng TEXT, address TEXT, locationImage BLOB)');
     },
     version: 1,
   );
@@ -41,6 +42,7 @@ class UserPlacesNotifier extends StateNotifier<List<PlaceModel>> {
                 lon: row['lng'] as String,
                 displayName: row['address'] as String,
               ),
+              locationImage: row['locationImage'] as Uint8List,
             ),
           )
           .toList();
@@ -55,7 +57,7 @@ class UserPlacesNotifier extends StateNotifier<List<PlaceModel>> {
     required String title,
     File? image,
     LocationModel? locationData,
-    Image? locationImage,
+    Uint8List? locationImage,
   }) async {
     final appDir = await syspath.getApplicationDocumentsDirectory();
     final fileName = path.basename(image!.path);
@@ -75,6 +77,7 @@ class UserPlacesNotifier extends StateNotifier<List<PlaceModel>> {
       'lat': newPlace.locationModel!.lat,
       'lng': newPlace.locationModel!.lon,
       'address': newPlace.locationModel!.displayName,
+      'locationImage': newPlace.locationImage
     });
     state = [newPlace, ...state];
   }

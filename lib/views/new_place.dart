@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,13 +20,13 @@ class _NewPlcaeState extends ConsumerState<NewPlcae> {
   final TextEditingController _titleController = TextEditingController();
   File? _selectedImage;
   LocationModel? _locationData;
-  Image? _locationImage;
+  Uint8List? _locationImage;
 
   void _savePlace({
     required String placeTitle,
     File? selectedImage,
     LocationModel? locationData,
-    Image? locationImage,
+    Uint8List? locationImage,
   }) {
     if (placeTitle != "" &&
         selectedImage != null &&
@@ -85,7 +86,7 @@ class _NewPlcaeState extends ConsumerState<NewPlcae> {
               ),
               const SizedBox(height: 30),
               LocationInput(
-                onGeUsertLocation: (LocationModel? locationModel, Image? locationImage) {
+                onGeUsertLocation: (LocationModel? locationModel, Uint8List? locationImage) {
                   _locationData = locationModel;
                   _locationImage = locationImage;
                 },
