@@ -144,7 +144,7 @@ class _LocationInputState extends State<LocationInput> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             TextButton.icon(
-              onPressed: getUserRealAddress,
+              onPressed: () {},
               icon: const Icon(
                 Icons.map,
               ),

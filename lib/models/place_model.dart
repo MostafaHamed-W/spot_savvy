@@ -13,6 +13,11 @@ class PlaceModel {
   final LocationModel? locationModel;
   final Image? locationImage;
 
-  PlaceModel({required this.title, this.image, this.locationModel, this.locationImage})
-      : id = uuid.v4();
+  PlaceModel({
+    required this.title,
+    this.image,
+    this.locationModel,
+    this.locationImage,
+    String? id,
+  }) : id = id ?? uuid.v4();
 }

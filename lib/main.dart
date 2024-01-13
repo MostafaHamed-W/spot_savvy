@@ -6,8 +6,8 @@ import 'package:spot_savvy/views/places.dart';
 
 final colorScheme = ColorScheme.fromSeed(
   brightness: Brightness.dark,
-  seedColor: const Color.fromARGB(255, 102, 6, 247),
-  background: const Color.fromARGB(255, 56, 49, 66),
+  seedColor: const Color.fromARGB(255, 114, 114, 114),
+  background: const Color.fromARGB(255, 48, 48, 48),
 );
 
 final theme = ThemeData().copyWith(

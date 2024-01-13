@@ -5,25 +5,27 @@ import 'package:spot_savvy/providers/places_provider.dart';
 import 'package:spot_savvy/views/new_place.dart';
 import 'package:spot_savvy/widgets/places_list_view.dart';
 
-class Places extends ConsumerWidget {
+class Places extends ConsumerStatefulWidget {
   const Places({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    Widget content = Center(
-      child: Text(
-        'No Data Yet',
-        style: Theme.of(context).textTheme.titleMedium,
-      ),
-    );
-    List<PlaceModel> placesList = ref.watch(userPlacesProvider);
+  ConsumerState<ConsumerStatefulWidget> createState() {
+    return _PlacesState();
+  }
+}
 
-    if (placesList.isNotEmpty) {
-      content = Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: PlacesListView(placesList: placesList),
-      );
-    }
+class _PlacesState extends ConsumerState<Places> {
+  late Future<void> _placesFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _placesFuture = ref.read(userPlacesProvider.notifier).loadPlaces();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<PlaceModel> userPlaces = ref.watch(userPlacesProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -46,7 +48,19 @@ class Places extends ConsumerWidget {
           ),
         ],
       ),
-      body: content,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: FutureBuilder(
+          future: _placesFuture,
+          builder: (context, snapshot) => snapshot.connectionState == ConnectionState.waiting
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : PlacesListView(
+                  placesList: userPlaces,
+                ),
+        ),
+      ),
     );
   }
 }
