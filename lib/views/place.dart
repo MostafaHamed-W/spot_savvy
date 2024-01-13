@@ -26,7 +26,7 @@ class Place extends StatelessWidget {
               ),
             ),
           Positioned(
-            bottom: 50,
+            bottom: 0,
             left: 0,
             right: 0,
             child: GestureDetector(
@@ -37,24 +37,35 @@ class Place extends StatelessWidget {
                   ),
                 ),
               ),
-              child: Column(
-                children: [
-                  Opacity(
-                    opacity: 0.8,
-                    child: CircleAvatar(
-                      radius: 100,
-                      backgroundImage: MemoryImage(
-                        selectedPlace.locationImage!,
+              child: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(colors: [
+                    Colors.black87,
+                    Colors.transparent,
+                  ], begin: Alignment.bottomCenter, end: Alignment.topCenter),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 30),
+                  child: Column(
+                    children: [
+                      Opacity(
+                        opacity: 0.8,
+                        child: CircleAvatar(
+                          radius: 100,
+                          backgroundImage: MemoryImage(
+                            selectedPlace.locationImage!,
+                          ),
+                        ),
                       ),
-                    ),
+                      const SizedBox(height: 10),
+                      Text(
+                        selectedPlace.locationModel?.displayName ?? 'Unknown',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 10),
-                  Text(
-                    selectedPlace.locationModel?.displayName ?? 'Unknown',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                ],
+                ),
               ),
             ),
           ),

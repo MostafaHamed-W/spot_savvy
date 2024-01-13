@@ -8,6 +8,7 @@ final colorScheme = ColorScheme.fromSeed(
   brightness: Brightness.dark,
   seedColor: const Color.fromARGB(255, 114, 114, 114),
   background: const Color.fromARGB(255, 48, 48, 48),
+  primary: Colors.white,
 );
 
 final theme = ThemeData().copyWith(
@@ -24,6 +25,7 @@ final theme = ThemeData().copyWith(
       fontWeight: FontWeight.bold,
     ),
   ),
+  cardTheme: const CardTheme(color: Colors.black),
 );
 
 void main() {
@@ -40,6 +42,7 @@ class SpotSavvy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Great Places',
       theme: theme,
       home: const Places(),
